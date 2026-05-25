@@ -7,6 +7,7 @@ const blog = defineCollection({
     date: z.date(),
     excerpt: z.string(),
     category: z.string(),
+    author: z.string().default('Serious Studios'),
     coverImage: z.string().optional(),
   }),
 });

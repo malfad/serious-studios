@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
-const base = import.meta.env.BASE_URL;
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Layout title="Journal" description="Thoughts on design, process, and craft from Serious Studios">
   <section class="blog-page">
@@ -13,7 +13,7 @@ const base = import.meta.env.BASE_URL;
       <h1 class="page-title">Journal</h1>
       <div class="post-list">
         {posts.map(post => (
-          <a href={`${base}blog/${post.slug}/`} class="post-item">
+          <a href={`${b}/blog/${post.slug}/`} class="post-item">
             <div class="post-item__image">
               {post.data.coverImage && (
                 <img src={post.data.coverImage} alt={post.data.title} loading="lazy" />
@@ -23,9 +23,13 @@ const base = import.meta.env.BASE_URL;
               <span class="post-item__cat">{post.data.category}</span>
               <h2 class="post-item__title">{post.data.title}</h2>
               <p class="post-item__excerpt">{post.data.excerpt}</p>
-              <time class="post-item__date" datetime={post.data.date.toISOString()}>
-                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </time>
+              <div class="post-item__meta">
+                <span class="post-item__author">{post.data.author}</span>
+                <span class="post-item__sep">·</span>
+                <time class="post-item__date" datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </time>
+              </div>
             </div>
           </a>
         ))}
@@ -77,13 +81,17 @@ const base = import.meta.env.BASE_URL;
   font-size: 0.95rem;
   color: var(--color-muted);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
-.post-item__date {
-  font-size: 0.8rem;
+.post-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
   color: var(--color-muted);
-  letter-spacing: 0.03em;
 }
+.post-item__author { font-weight: 500; color: var(--color-text); }
+.post-item__sep { opacity: 0.4; }
 @media (max-width: 768px) {
   .post-item { grid-template-columns: 1fr; gap: 1.5rem; }
 }

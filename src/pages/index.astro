@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 
-const base = import.meta.env.BASE_URL;
+const b = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const projects = [
   { title: 'Noir Botanicals', category: 'Branding', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80', href: '#', tall: false },
@@ -25,7 +25,7 @@ const projects = [
         {projects.map(p => <ProjectCard {...p} />)}
       </div>
       <div class="view-all">
-        <a href={`${base}work/`} class="btn">View all work</a>
+        <a href={`${b}/work/`} class="btn">View all work</a>
       </div>
     </div>
   </section>
