@@ -1,0 +1,69 @@
+---
+---
+<section class="hero">
+  <div class="container">
+    <h1 class="hero__headline">
+      We design&nbsp;<span class="hero__typer" id="typer"></span>
+    </h1>
+    <p class="hero__sub">
+      A creative studio crafting bold visual identities, digital experiences,<br />
+      and design systems for brands that mean something.
+    </p>
+  </div>
+</section>
+
+<style>
+.hero {
+  padding: 8rem 0 6rem;
+}
+.hero__headline {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+.hero__typer {
+  display: inline-block;
+  min-width: 2ch;
+}
+.hero__typer::after {
+  content: '.';
+  animation: blink 0.8s step-end infinite;
+}
+.hero__sub {
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+  max-width: 600px;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@media (max-width: 768px) {
+  .hero { padding: 4rem 0 3rem; }
+  .hero__sub br { display: none; }
+}
+</style>
+
+<script>
+const words = ['identities', 'experiences', 'systems', 'brands', 'futures'];
+const el = document.getElementById('typer');
+if (el) {
+  let wi = 0, ci = 0, deleting = false;
+  const TYPE_SPEED = 100, DELETE_SPEED = 60, PAUSE = 2000;
+  function tick() {
+    const word = words[wi];
+    if (!deleting) {
+      el.textContent = word.slice(0, ++ci);
+      if (ci === word.length) { deleting = true; return setTimeout(tick, PAUSE); }
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+    }
+    setTimeout(tick, deleting ? DELETE_SPEED : TYPE_SPEED);
+  }
+  tick();
+}
+</script>

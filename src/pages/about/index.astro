@@ -1,0 +1,110 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="About" description="Serious Studios — a creative design studio established 2024">
+  <section class="about">
+    <div class="container">
+      <div class="about__grid">
+        <div class="about__left">
+          <h1>About</h1>
+        </div>
+        <div class="about__right">
+          <p class="about__intro">
+            We're a creative design studio that works with brands at inflection points —
+            launches, rebrands, pivots, and moments when visual identity needs to catch up
+            to ambition.
+          </p>
+          <p>
+            Our work spans identity, brand systems, art direction, packaging, and digital
+            design. We operate as a small, focused team so that senior designers work on
+            every project — not just the ones that make it into the portfolio.
+          </p>
+          <div class="about__stats">
+            <div class="stat">
+              <span class="stat__number">60+</span>
+              <span class="stat__label">Projects completed</span>
+            </div>
+            <div class="stat">
+              <span class="stat__number">3</span>
+              <span class="stat__label">Phase methodology</span>
+            </div>
+            <div class="stat">
+              <span class="stat__number">12+</span>
+              <span class="stat__label">Industries served</span>
+            </div>
+          </div>
+          <div class="about__phases">
+            <div class="phase">
+              <span class="phase__num">01</span>
+              <div>
+                <h3>Discovery</h3>
+                <p>We map the landscape: brand audit, competitive analysis, stakeholder interviews, positioning workshops. We don't design until we understand the problem deeply.</p>
+              </div>
+            </div>
+            <div class="phase">
+              <span class="phase__num">02</span>
+              <div>
+                <h3>Design</h3>
+                <p>Concept development, iteration, refinement. We work in focused sprints and present work in context — not on white backgrounds, but in the world it'll actually live in.</p>
+              </div>
+            </div>
+            <div class="phase">
+              <span class="phase__num">03</span>
+              <div>
+                <h3>Delivery</h3>
+                <p>Comprehensive brand guidelines, production-ready files, and ongoing support. We hand over everything you need to use the brand consistently at every scale.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.about { padding: 5rem 0 6rem; }
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6rem;
+}
+.about__grid h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  position: sticky;
+  top: 7rem;
+}
+.about__intro {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+.about__right p { color: var(--color-muted); margin-bottom: 1.5rem; line-height: 1.75; }
+.about__stats {
+  display: flex;
+  gap: 3rem;
+  margin: 3rem 0;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+.stat { display: flex; flex-direction: column; }
+.stat__number { font-size: 2.5rem; font-weight: 300; line-height: 1; margin-bottom: 0.4rem; }
+.stat__label { font-size: 0.82rem; color: var(--color-muted); letter-spacing: 0.04em; }
+.about__phases { display: flex; flex-direction: column; gap: 2.5rem; margin-top: 3rem; }
+.phase {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1.5rem;
+}
+.phase__num { font-size: 0.8rem; font-weight: 600; color: var(--color-muted); padding-top: 0.2rem; }
+.phase h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
+.phase p { color: var(--color-muted); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+@media (max-width: 900px) {
+  .about__grid { grid-template-columns: 1fr; gap: 2rem; }
+  .about__grid h1 { position: static; }
+  .about__stats { flex-wrap: wrap; gap: 2rem; }
+}
+</style>

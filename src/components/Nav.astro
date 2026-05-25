@@ -1,0 +1,164 @@
+---
+const base = import.meta.env.BASE_URL;
+const navLinks = [
+  { label: 'Work', href: `${base}work/` },
+  { label: 'Journal', href: `${base}blog/` },
+  { label: 'About', href: `${base}about/` },
+  { label: 'Contact', href: `${base}contact/` },
+];
+---
+<header class="nav" id="main-nav">
+  <div class="container nav__inner">
+    <a href={base} class="nav__logo">SERIOUS STUDIOS</a>
+    <nav class="nav__links" aria-label="Primary navigation">
+      {navLinks.map(link => (
+        <a href={link.href} class="nav__link">{link.label}</a>
+      ))}
+    </nav>
+    <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav__overlay" id="nav-overlay" aria-hidden="true">
+  <nav class="nav__overlay-links" aria-label="Mobile navigation">
+    {navLinks.map(link => (
+      <a href={link.href} class="nav__overlay-link">{link.label}</a>
+    ))}
+  </nav>
+</div>
+
+<style>
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--nav-padding);
+  padding-bottom: var(--nav-padding);
+}
+
+.nav__logo {
+  font-family: var(--font-logo);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  transition: opacity var(--transition-base);
+}
+.nav__logo:hover { opacity: 0.6; }
+
+.nav__links {
+  display: flex;
+  gap: 2.667rem;
+  align-items: center;
+}
+
+.nav__link {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.055rem;
+  color: var(--color-text);
+  transition: opacity var(--transition-base);
+}
+.nav__link:hover { opacity: 0.5; }
+
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  z-index: 200;
+}
+.nav__hamburger span,
+.nav__hamburger span::before,
+.nav__hamburger span::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-text);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  position: absolute;
+}
+.nav__hamburger span::before { content: ''; transform: translateY(-7px); }
+.nav__hamburger span::after  { content: ''; transform: translateY(7px); }
+
+.nav__hamburger.is-open span { background: transparent; }
+.nav__hamburger.is-open span::before { transform: rotate(45deg); }
+.nav__hamburger.is-open span::after  { transform: rotate(-45deg); }
+
+/* Overlay */
+.nav__overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay-bg);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-menu);
+}
+.nav__overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+.nav__overlay-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+.nav__overlay-link {
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  transition: color var(--transition-base);
+  padding: 0.5rem 0;
+}
+.nav__overlay-link:hover { color: var(--color-text); }
+
+@media (max-width: 768px) {
+  .nav__links { display: none; }
+  .nav__hamburger { display: flex; }
+}
+</style>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('nav-overlay');
+
+hamburger?.addEventListener('click', () => {
+  const isOpen = hamburger.classList.toggle('is-open');
+  overlay?.classList.toggle('is-open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+  overlay?.setAttribute('aria-hidden', String(!isOpen));
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+overlay?.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger?.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    hamburger?.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  });
+});
+</script>

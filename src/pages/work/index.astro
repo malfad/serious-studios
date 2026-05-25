@@ -1,0 +1,101 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const categories = ['All', 'Branding', 'Identity', 'Art Direction', 'Packaging', 'Digital', 'Brand System'];
+
+const projects = [
+  { title: 'Noir Botanicals', category: 'Branding', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80', href: '#' },
+  { title: 'Vanta Architecture', category: 'Identity', image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80', href: '#', tall: true },
+  { title: 'Pulse Fashion', category: 'Art Direction', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80', href: '#' },
+  { title: 'Forma Interiors', category: 'Brand System', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80', href: '#' },
+  { title: 'Meridian Hospitality', category: 'Identity', image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=80', href: '#', tall: true },
+  { title: 'Halo Skincare', category: 'Packaging', image: 'https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=800&q=80', href: '#' },
+  { title: 'Crest Financial', category: 'Branding', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', href: '#' },
+  { title: 'Slate Collective', category: 'Art Direction', image: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800&q=80', href: '#' },
+  { title: 'Umbra Labs', category: 'Digital', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', href: '#', tall: true },
+  { title: 'Soleil Cosmetics', category: 'Packaging', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80', href: '#' },
+  { title: 'Arc Studio', category: 'Identity', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80', href: '#' },
+  { title: 'Drift Collective', category: 'Art Direction', image: 'https://images.unsplash.com/photo-1523821741446-edb2b68bb7a0?w=800&q=80', href: '#' },
+];
+---
+<Layout title="Work" description="Portfolio of creative and design work by Serious Studios">
+  <section class="work-page">
+    <div class="container">
+      <header class="work-header">
+        <h1>Work</h1>
+        <div class="filters" id="filters">
+          {categories.map(cat => (
+            <button class:list={['filter-btn', { active: cat === 'All' }]} data-cat={cat}>
+              {cat}
+            </button>
+          ))}
+        </div>
+      </header>
+      <div class="grid" id="project-grid">
+        {projects.map(p => (
+          <div class="grid-item" data-cat={p.category}>
+            <ProjectCard {...p} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.work-page { padding: 5rem 0 4rem; }
+.work-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.work-header h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+}
+.filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.filter-btn {
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
+}
+.grid-item { transition: opacity 0.3s ease; }
+.grid-item.hidden { display: none; }
+@media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+const items = document.querySelectorAll<HTMLElement>('.grid-item');
+
+btns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    items.forEach(item => {
+      item.classList.toggle('hidden', cat !== 'All' && item.dataset.cat !== cat);
+    });
+  });
+});
+</script>

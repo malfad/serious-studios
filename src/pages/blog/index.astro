@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const base = import.meta.env.BASE_URL;
+---
+<Layout title="Journal" description="Thoughts on design, process, and craft from Serious Studios">
+  <section class="blog-page">
+    <div class="container">
+      <h1 class="page-title">Journal</h1>
+      <div class="post-list">
+        {posts.map(post => (
+          <a href={`${base}blog/${post.slug}/`} class="post-item">
+            <div class="post-item__image">
+              {post.data.coverImage && (
+                <img src={post.data.coverImage} alt={post.data.title} loading="lazy" />
+              )}
+            </div>
+            <div class="post-item__body">
+              <span class="post-item__cat">{post.data.category}</span>
+              <h2 class="post-item__title">{post.data.title}</h2>
+              <p class="post-item__excerpt">{post.data.excerpt}</p>
+              <time class="post-item__date" datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.blog-page { padding: 5rem 0 4rem; }
+.page-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  margin-bottom: 4rem;
+}
+.post-list { display: flex; flex-direction: column; gap: 0; }
+.post-item {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: opacity var(--transition-base);
+}
+.post-item:hover { opacity: 0.7; }
+.post-item__image {
+  overflow: hidden;
+  aspect-ratio: 16/10;
+  background: #f2f2f2;
+}
+.post-item__image img { width: 100%; height: 100%; object-fit: cover; }
+.post-item__cat {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.75rem;
+}
+.post-item__title {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+.post-item__excerpt {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.post-item__date {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  letter-spacing: 0.03em;
+}
+@media (max-width: 768px) {
+  .post-item { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+</style>

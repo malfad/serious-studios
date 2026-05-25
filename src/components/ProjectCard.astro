@@ -1,0 +1,83 @@
+---
+interface Props {
+  title: string;
+  category: string;
+  image: string;
+  href: string;
+  tall?: boolean;
+}
+const { title, category, image, href, tall = false } = Astro.props;
+---
+<a href={href} class:list={['thumb', { 'thumb--tall': tall }]}>
+  <div class="thumb__inner">
+    <img src={image} alt={title} loading="lazy" />
+    <div class="thumb__hover">
+      <div class="thumb__meta">
+        <span class="thumb__category">{category}</span>
+        <span class="thumb__title">{title}</span>
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+.thumb {
+  display: block;
+  overflow: hidden;
+  background: #f2f2f2;
+}
+.thumb__inner {
+  position: relative;
+  width: 100%;
+  padding-top: 75%;
+  overflow: hidden;
+}
+.thumb--tall .thumb__inner { padding-top: 120%; }
+
+.thumb__inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.thumb:hover .thumb__inner img { transform: scale(1.04); }
+
+.thumb__hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity var(--transition-base), background var(--transition-base);
+}
+.thumb:hover .thumb__hover {
+  opacity: 1;
+  background: rgba(0,0,0,0.45);
+}
+
+.thumb__meta {
+  padding: 1.111rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transform: translateY(8px);
+  transition: transform 0.3s ease;
+}
+.thumb:hover .thumb__meta { transform: translateY(0); }
+
+.thumb__category {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+}
+.thumb__title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+</style>
