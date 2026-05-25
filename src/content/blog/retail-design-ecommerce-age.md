@@ -3,7 +3,7 @@ title: "Retail Design in the Age of E-Commerce"
 date: 2026-05-09
 excerpt: "Physical retail didn't die — it got filtered. What's left has to do something a browser tab can't."
 category: "Brand Identity"
-author: "Nauel"
+author: "Manuel"
 coverImage: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1200&q=80"
 ---
 

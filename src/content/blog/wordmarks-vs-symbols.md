@@ -3,7 +3,7 @@ title: "Wordmarks vs Symbols: When Each Is the Right Call"
 date: 2026-03-28
 excerpt: "The choice between a wordmark and a symbol isn't aesthetic preference — it's a strategic decision with long-term consequences."
 category: "Brand Identity"
-author: "Nauel"
+author: "Manuel"
 coverImage: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=1200&q=80"
 ---
 

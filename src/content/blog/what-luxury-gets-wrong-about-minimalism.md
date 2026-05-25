@@ -3,7 +3,7 @@ title: "What Luxury Brands Get Wrong About Minimalism"
 date: 2026-04-18
 excerpt: "Minimal doesn't mean empty. The brands that mistake silence for restraint end up with identities that say nothing — which is not the same as saying everything quietly."
 category: "Brand Identity"
-author: "Nauel"
+author: "Manuel"
 coverImage: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80"
 ---
 

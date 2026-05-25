@@ -3,7 +3,7 @@ title: "Why We Stopped Using Mood Boards (And What We Do Instead)"
 date: 2026-03-07
 excerpt: "Mood boards felt productive. Then we noticed they were teaching clients to evaluate aesthetics before we'd defined strategy."
 category: "Process"
-author: "Nauel"
+author: "Manuel"
 coverImage: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=80"
 ---
 
