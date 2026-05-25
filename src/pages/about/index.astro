@@ -1,7 +1,45 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const SITE_URL = 'https://malfad.github.io/serious-studios';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What services does Serious Studios offer?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Serious Studios offers brand identity design, brand systems, art direction, packaging design, and digital design for businesses at inflection points — launches, rebrands, and pivots.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'How long does a brand identity project take?',
+      acceptedAnswer: { '@type': 'Answer', text: 'A focused brand identity sprint takes 6 weeks from kickoff to final delivery. This covers discovery, brand direction, concept development, refinement, system build, and handover.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the Serious Studios design process?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Our three-phase methodology is: Discovery (brand audit, competitive analysis, stakeholder workshops), Design (concept development, iteration, refinement), and Delivery (comprehensive brand guidelines, production-ready files, and ongoing support).' },
+    },
+    {
+      '@type': 'Question',
+      name: 'How many projects has Serious Studios completed?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Serious Studios has completed 60+ projects across industries including fashion, hospitality, technology, retail, and FMCG.' },
+    },
+  ],
+};
 ---
-<Layout title="About" description="Serious Studios — a creative design studio established 2024">
+<Layout
+  title="About — Creative Design Studio"
+  description="Serious Studios is a creative design studio working with brands at inflection points. Discovery, Design, Delivery — a three-phase methodology built for ambitious brands."
+  breadcrumbs={[
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'About', url: `${SITE_URL}/about/` },
+  ]}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
   <section class="about">
     <div class="container">
       <div class="about__grid">
@@ -33,27 +71,50 @@ import Layout from '../../layouts/Layout.astro';
               <span class="stat__label">Industries served</span>
             </div>
           </div>
+
           <div class="about__phases">
             <div class="phase">
               <span class="phase__num">01</span>
               <div>
-                <h3>Discovery</h3>
+                <h2>Discovery</h2>
                 <p>We map the landscape: brand audit, competitive analysis, stakeholder interviews, positioning workshops. We don't design until we understand the problem deeply.</p>
               </div>
             </div>
             <div class="phase">
               <span class="phase__num">02</span>
               <div>
-                <h3>Design</h3>
+                <h2>Design</h2>
                 <p>Concept development, iteration, refinement. We work in focused sprints and present work in context — not on white backgrounds, but in the world it'll actually live in.</p>
               </div>
             </div>
             <div class="phase">
               <span class="phase__num">03</span>
               <div>
-                <h3>Delivery</h3>
+                <h2>Delivery</h2>
                 <p>Comprehensive brand guidelines, production-ready files, and ongoing support. We hand over everything you need to use the brand consistently at every scale.</p>
               </div>
+            </div>
+          </div>
+
+          <div class="about__faq">
+            <h2>Frequently asked questions</h2>
+            <div class="faq-list">
+              <details class="faq-item">
+                <summary>What services do you offer?</summary>
+                <p>Brand identity design, brand systems, art direction, packaging design, and digital design — for businesses at inflection points: launches, rebrands, and pivots.</p>
+              </details>
+              <details class="faq-item">
+                <summary>How long does a brand identity project take?</summary>
+                <p>A focused brand identity sprint takes 6 weeks from kickoff to final delivery, covering discovery, brand direction, concept development, refinement, system build, and handover.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Do you work with early-stage startups?</summary>
+                <p>Yes — some of our best work has been for pre-launch brands where we're defining identity from scratch. The brief is cleaner; the opportunity is bigger.</p>
+              </details>
+              <details class="faq-item">
+                <summary>What does the delivery package include?</summary>
+                <p>Final logo files (all formats), a brand guidelines document (max 40 pages, designed to be used), a type and colour specification, and a 90-minute handover call.</p>
+              </details>
             </div>
           </div>
         </div>
@@ -64,44 +125,29 @@ import Layout from '../../layouts/Layout.astro';
 
 <style>
 .about { padding: 5rem 0 6rem; }
-.about__grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 6rem;
-}
-.about__grid h1 {
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 400;
-  position: sticky;
-  top: 7rem;
-}
-.about__intro {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  font-weight: 400;
-}
+.about__grid { display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; }
+.about__grid h1 { font-size: clamp(2rem, 5vw, 4rem); font-weight: 400; position: sticky; top: 7rem; }
+.about__intro { font-size: 1.3rem; line-height: 1.6; margin-bottom: 1.5rem; font-weight: 400; }
 .about__right p { color: var(--color-muted); margin-bottom: 1.5rem; line-height: 1.75; }
-.about__stats {
-  display: flex;
-  gap: 3rem;
-  margin: 3rem 0;
-  padding: 2.5rem 0;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-}
+.about__stats { display: flex; gap: 3rem; margin: 3rem 0; padding: 2.5rem 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
 .stat { display: flex; flex-direction: column; }
 .stat__number { font-size: 2.5rem; font-weight: 300; line-height: 1; margin-bottom: 0.4rem; }
 .stat__label { font-size: 0.82rem; color: var(--color-muted); letter-spacing: 0.04em; }
 .about__phases { display: flex; flex-direction: column; gap: 2.5rem; margin-top: 3rem; }
-.phase {
-  display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 1.5rem;
-}
+.phase { display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem; }
 .phase__num { font-size: 0.8rem; font-weight: 600; color: var(--color-muted); padding-top: 0.2rem; }
-.phase h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
+.phase h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
 .phase p { color: var(--color-muted); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+
+.about__faq { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--color-border); }
+.about__faq > h2 { font-size: 1.2rem; font-weight: 500; margin-bottom: 1.5rem; }
+.faq-list { display: flex; flex-direction: column; }
+.faq-item { border-bottom: 1px solid var(--color-border); }
+.faq-item summary { padding: 1.1rem 0; font-size: 0.95rem; font-weight: 500; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.faq-item summary::after { content: '+'; font-size: 1.2rem; font-weight: 300; transition: transform 0.2s; }
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p { padding-bottom: 1.1rem; color: var(--color-muted); font-size: 0.9rem; line-height: 1.7; margin: 0; }
+
 @media (max-width: 900px) {
   .about__grid { grid-template-columns: 1fr; gap: 2rem; }
   .about__grid h1 { position: static; }

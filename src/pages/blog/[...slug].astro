@@ -10,28 +10,52 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+const SITE_URL = 'https://malfad.github.io/serious-studios';
 ---
-<Layout title={post.data.title} description={post.data.excerpt}>
-  <article class="post">
+<Layout
+  title={post.data.title}
+  description={post.data.excerpt}
+  type="article"
+  ogImage={post.data.coverImage}
+  article={{
+    author: post.data.author,
+    datePublished: post.data.date.toISOString(),
+    category: post.data.category,
+  }}
+  breadcrumbs={[
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Journal', url: `${SITE_URL}/blog/` },
+    { name: post.data.title, url: `${SITE_URL}/blog/${post.slug}/` },
+  ]}
+>
+  <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
     {post.data.coverImage && (
       <div class="post__hero">
-        <img src={post.data.coverImage} alt={post.data.title} />
+        <img src={post.data.coverImage} alt={post.data.title} itemprop="image" />
       </div>
     )}
     <div class="container">
       <header class="post__header">
-        <a href={`${b}/blog/`} class="post__back">← Journal</a>
-        <span class="post__cat">{post.data.category}</span>
-        <h1 class="post__title">{post.data.title}</h1>
+        <nav class="post__breadcrumb" aria-label="Breadcrumb">
+          <a href={`${b}/`}>Home</a>
+          <span aria-hidden="true"> / </span>
+          <a href={`${b}/blog/`}>Journal</a>
+          <span aria-hidden="true"> / </span>
+          <span>{post.data.title}</span>
+        </nav>
+        <span class="post__cat" itemprop="articleSection">{post.data.category}</span>
+        <h1 class="post__title" itemprop="headline">{post.data.title}</h1>
         <div class="post__byline">
-          <span class="post__author">{post.data.author}</span>
-          <span> · </span>
-          <time class="post__date" datetime={post.data.date.toISOString()}>
+          <span class="post__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+            <span itemprop="name">{post.data.author}</span>
+          </span>
+          <span aria-hidden="true"> · </span>
+          <time class="post__date" datetime={post.data.date.toISOString()} itemprop="datePublished">
             {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
         </div>
       </header>
-      <div class="post__body prose">
+      <div class="post__body prose" itemprop="articleBody">
         <Content />
       </div>
     </div>
@@ -40,46 +64,17 @@ const b = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <style>
 .post { padding-bottom: 6rem; }
-.post__hero {
-  width: 100%;
-  max-height: 520px;
-  overflow: hidden;
-  margin-bottom: 4rem;
-}
+.post__hero { width: 100%; max-height: 520px; overflow: hidden; margin-bottom: 4rem; }
 .post__hero img { width: 100%; height: 520px; object-fit: cover; }
-
 .post__header { max-width: 740px; margin: 0 auto 3rem; }
-.post__back {
-  display: inline-block;
-  font-size: 0.85rem;
-  color: var(--color-muted);
-  margin-bottom: 2rem;
-  transition: color var(--transition-base);
-}
-.post__back:hover { color: var(--color-text); }
-.post__cat {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  margin-bottom: 1rem;
-}
-.post__title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 1.5rem;
-}
-.post__byline { font-size: 0.85rem; color: var(--color-muted); }
+.post__breadcrumb { font-size: 0.8rem; color: var(--color-muted); margin-bottom: 1.5rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.post__breadcrumb a { transition: color var(--transition-base); }
+.post__breadcrumb a:hover { color: var(--color-text); }
+.post__cat { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 1rem; }
+.post__title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+.post__byline { font-size: 0.85rem; color: var(--color-muted); display: flex; align-items: center; gap: 0.4rem; }
 .post__author { font-weight: 600; color: var(--color-text); }
-
-.post__body {
-  max-width: 740px;
-  margin: 0 auto;
-}
+.post__body { max-width: 740px; margin: 0 auto; }
 .prose :global(h2) { font-size: 1.6rem; font-weight: 500; margin: 2.5rem 0 1rem; }
 .prose :global(h3) { font-size: 1.2rem; font-weight: 600; margin: 2rem 0 0.75rem; }
 .prose :global(p)  { margin-bottom: 1.5rem; line-height: 1.75; color: #222; }

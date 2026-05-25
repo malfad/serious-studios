@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 
+const SITE_URL = 'https://malfad.github.io/serious-studios';
 const categories = ['All', 'Branding', 'Identity', 'Art Direction', 'Packaging', 'Digital', 'Brand System'];
 
 const projects = [
@@ -18,21 +19,44 @@ const projects = [
   { title: 'Arc Studio', category: 'Identity', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80', href: '#' },
   { title: 'Drift Collective', category: 'Art Direction', image: 'https://images.unsplash.com/photo-1523821741446-edb2b68bb7a0?w=800&q=80', href: '#' },
 ];
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Serious Studios Portfolio',
+  description: 'Selected brand identity, packaging, and art direction projects by Serious Studios.',
+  numberOfItems: projects.length,
+  itemListElement: projects.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.title,
+    description: `${p.category} project by Serious Studios`,
+  })),
+};
 ---
-<Layout title="Work" description="Portfolio of creative and design work by Serious Studios">
+<Layout
+  title="Work — Brand Identity & Design Portfolio"
+  description="Portfolio of brand identity, packaging, art direction, and digital design projects by Serious Studios. 60+ completed projects across fashion, hospitality, technology, and retail."
+  breadcrumbs={[
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Work', url: `${SITE_URL}/work/` },
+  ]}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+
   <section class="work-page">
     <div class="container">
       <header class="work-header">
         <h1>Work</h1>
-        <div class="filters" id="filters">
+        <div class="filters" id="filters" role="group" aria-label="Filter projects by category">
           {categories.map(cat => (
-            <button class:list={['filter-btn', { active: cat === 'All' }]} data-cat={cat}>
+            <button class:list={['filter-btn', { active: cat === 'All' }]} data-cat={cat} aria-pressed={cat === 'All' ? 'true' : 'false'}>
               {cat}
             </button>
           ))}
         </div>
       </header>
-      <div class="grid" id="project-grid">
+      <div class="grid" id="project-grid" aria-label="Project grid">
         {projects.map(p => (
           <div class="grid-item" data-cat={p.category}>
             <ProjectCard {...p} />
@@ -45,39 +69,12 @@ const projects = [
 
 <style>
 .work-page { padding: 5rem 0 4rem; }
-.work-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-.work-header h1 {
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 400;
-}
+.work-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 3rem; }
+.work-header h1 { font-size: clamp(2rem, 5vw, 4rem); font-weight: 400; }
 .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.filter-btn {
-  background: none;
-  border: 1px solid var(--color-border);
-  padding: 0.4rem 1rem;
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
-}
-.filter-btn:hover, .filter-btn.active {
-  background: var(--color-text);
-  color: var(--color-bg);
-  border-color: var(--color-text);
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--grid-gap);
-}
+.filter-btn { background: none; border: 1px solid var(--color-border); padding: 0.4rem 1rem; font-family: var(--font-body); font-size: 0.82rem; letter-spacing: 0.05em; cursor: pointer; transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base); }
+.filter-btn:hover, .filter-btn.active { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); }
 .grid-item { transition: opacity 0.3s ease; }
 .grid-item.hidden { display: none; }
 @media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
@@ -87,15 +84,13 @@ const projects = [
 <script>
 const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
 const items = document.querySelectorAll<HTMLElement>('.grid-item');
-
 btns.forEach(btn => {
   btn.addEventListener('click', () => {
-    btns.forEach(b => b.classList.remove('active'));
+    btns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
     const cat = btn.dataset.cat;
-    items.forEach(item => {
-      item.classList.toggle('hidden', cat !== 'All' && item.dataset.cat !== cat);
-    });
+    items.forEach(item => { item.classList.toggle('hidden', cat !== 'All' && item.dataset.cat !== cat); });
   });
 });
 </script>
